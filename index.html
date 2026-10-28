@@ -31,6 +31,7 @@ input[type=text],input[type=number]{width:100%;background:var(--ceu);border:1px 
 .chip{font:inherit;color:var(--texto);background:transparent;border:1px solid var(--borda);border-radius:999px;padding:10px 16px;min-height:44px}
 .chip[aria-pressed=true]{background:var(--lua);border-color:var(--lua);color:#1B1A12;font-weight:500}
 .cta{width:100%;margin-top:34px;background:var(--lua);color:#1B1A12;border:0;border-radius:18px;padding:18px;font:700 20px var(--titulo)}
+.alt{width:100%;margin-top:12px;background:transparent;color:var(--lua);border:1px solid var(--lua);border-radius:18px;padding:16px;font:700 18px var(--titulo)}
 .lnk{background:none;border:0;color:var(--lua);font:inherit;padding:10px 0;margin-top:6px;text-decoration:underline;text-underline-offset:4px}
 .chk{display:flex;gap:10px;align-items:center;margin-top:22px;color:var(--suave)}
 .chk input{width:22px;height:22px;accent-color:var(--lua)}
@@ -62,7 +63,10 @@ const ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ
 const TEMAS = ["Animais da floresta","Viagem pelo espaço","Fazenda","Fundo do mar","Dinossauros","Super-heróis","Tratores e máquinas","Castelo e dragão amigo"];
 const LICOES = ["Coragem","Gratidão","Dividir com os outros","Amizade","Não ter medo do escuro","Paciência"];
 const MIN = [3,5,8];
-const S = Object.assign({nome:"Ravi",idade:5,tema:TEMAS[0],licao:LICOES[0],min:5,amigo:"",cont:false,favs:[],ult:null,fs:24,pin:""},
+const TIPOS = ["Original","Clássicos","Bíblia"];
+const CLASSICOS = ["Chapeuzinho Vermelho","Os Três Porquinhos","Cachinhos Dourados","O Patinho Feio","João e o Pé de Feijão","Cinderela","A Branca de Neve","A Bela Adormecida","O Gato de Botas","A Lebre e a Tartaruga","A Cigarra e a Formiga","O Pequeno Polegar","Rapunzel","Pinóquio","A Pequena Sereia","Os Músicos de Bremen"];
+const BIBLIA = ["A criação do mundo","Noé e a arca","José e a túnica colorida","Moisés e o mar Vermelho","Davi e Golias","Daniel na cova dos leões","Jonas e o grande peixe","O nascimento de Jesus","Jesus e as crianças","A ovelha perdida","O bom samaritano","Zaqueu no sicômoro","Jesus acalma a tempestade","A multiplicação dos pães"];
+const S = Object.assign({nome:"Ravi",idade:5,tema:TEMAS[0],licao:LICOES[0],min:5,amigo:"",cont:false,tipo:"Original",classico:"Chapeuzinho Vermelho",biblia:"Noé e a arca",outra:"",contadas:{},favs:[],ult:null,fs:24,pin:""},
   JSON.parse(localStorage.getItem("lua")||"{}"));
 const save = () => localStorage.setItem("lua", JSON.stringify(S));
 const app = document.getElementById("app");
@@ -72,18 +76,24 @@ let cur = null;
 
 function home(){
   document.body.classList.remove("dark");
+  const o = S.tipo==="Original", cl = S.tipo==="Clássicos", lista = cl?CLASSICOS:BIBLIA, k = cl?"classico":"biblia";
   app.innerHTML = `<main>
   <header><h1>Boa noite, ${esc(S.nome)}</h1><p>Que história vamos contar hoje?</p>
   <button class="lnk" data-a="lib">Histórias salvas (${S.favs.length})</button></header>
-  <section><label class="lb" for="nome">Herói e idade</label><div class="row">
-    <input id="nome" type="text" value="${esc(S.nome)}" autocomplete="off"><input id="idade" type="number" min="2" max="10" value="${S.idade}" aria-label="Idade"></div></section>
-  <section><span class="lb">Tema</span><div class="chips">${chips(TEMAS,"tema")}</div></section>
-  <section><span class="lb">Lição suave</span><div class="chips">${chips(LICOES,"licao")}</div></section>
+  <section><span class="lb">Tipo de história</span><div class="chips">${chips(TIPOS,"tipo")}</div></section>
+  <section><label class="lb" for="idade">${o?"Herói e idade":"Idade da criança"}</label>
+    <div class="row" ${o?"":'style="grid-template-columns:84px"'}>${o?`<input id="nome" type="text" value="${esc(S.nome)}" autocomplete="off">`:""}
+    <input id="idade" type="number" min="2" max="12" value="${S.idade}" aria-label="Idade"></div></section>
+  ${o?`<section><span class="lb">Tema</span><div class="chips">${chips(TEMAS,"tema")}</div></section>
+  <section><span class="lb">Lição suave</span><div class="chips">${chips(LICOES,"licao")}</div></section>`
+  :`<section><span class="lb">Escolha a história</span><div class="chips">${chips(lista,k)}</div></section>
+  <section><label class="lb" for="outra">Ou digite outra (tem prioridade)</label>
+    <input id="outra" type="text" placeholder="${cl?"ex.: Rapunzel":"ex.: A arca da aliança"}" value="${esc(S.outra)}" autocomplete="off"></section>`}
   <section><span class="lb">Duração</span><div class="chips">${chips(MIN,"min")}</div></section>
-  <section><label class="lb" for="amigo">Um amigo na história (opcional)</label>
+  ${o?`<section><label class="lb" for="amigo">Um amigo na história (opcional)</label>
     <input id="amigo" type="text" placeholder="ex.: coelhinho Totó" value="${esc(S.amigo)}" autocomplete="off"></section>
-  ${S.ult?`<label class="chk"><input type="checkbox" id="cont" ${S.cont?"checked":""}>Continuar a última história</label>`:""}
-  <button class="cta" data-a="gen">Contar uma história</button></main>`;
+  ${S.ult?`<label class="chk"><input type="checkbox" id="cont" ${S.cont?"checked":""}>Continuar a última história</label>`:""}`:""}
+  <button class="cta" data-a="gen">${o?"Contar uma história":"Contar a história escolhida"}</button>${o?"":`<button class="alt" data-a="rand">Surpreenda-me</button>`}</main>`;
 }
 
 function reader(h){
@@ -108,26 +118,37 @@ function msg(t,p,btn){
   app.innerHTML = `<div class="msg">${btn?"":'<div class="lua"></div>'}<h2>${t}</h2><p>${p}</p>${btn?'<button class="cta" data-a="gen">Tentar de novo</button><button class="lnk" data-a="home">Voltar</button>':""}</div>`;
 }
 
+function surpresa(){
+  const cl = S.tipo==="Clássicos", lista = cl?CLASSICOS:BIBLIA, k = cl?"classico":"biblia";
+  const ja = S.contadas[S.tipo]||[]; let pool = lista.filter(x=>!ja.includes(x));
+  if(!pool.length){ S.contadas[S.tipo]=[]; pool = lista; }
+  S[k] = pool[Math.floor(Math.random()*pool.length)]; S.outra = ""; save(); gerar();
+}
+
 async function gerar(){
   if(!S.pin){ S.pin = prompt("Código de acesso do app:") || ""; save(); }
   msg("Preparando a história…","Respire fundo. Já já começa.");
   try{
     const r = await fetch(API,{method:"POST",
       headers:{"Content-Type":"application/json",apikey:ANON,Authorization:"Bearer "+ANON,"x-app-pin":S.pin},
-      body:JSON.stringify({nome:S.nome,idade:S.idade,tema:S.tema,licao:S.licao,minutos:S.min,amigo:S.amigo,
-        anterior:S.cont&&S.ult?S.ult.texto.slice(0,700):""})});
+      body:JSON.stringify({tipo:S.tipo,historia:S.outra.trim()||(S.tipo==="Clássicos"?S.classico:S.tipo==="Bíblia"?S.biblia:""),nome:S.nome,idade:S.idade,tema:S.tema,licao:S.licao,minutos:S.min,amigo:S.amigo,
+        anterior:S.tipo==="Original"&&S.cont&&S.ult?S.ult.texto.slice(0,700):""})});
     const d = await r.json();
     if(!r.ok){ if(r.status===401){S.pin="";save();} throw new Error(d.erro||"Falha ao gerar"); }
-    S.ult = {id:Date.now(),titulo:d.titulo,texto:d.texto}; save(); reader(S.ult);
+    S.ult = {id:Date.now(),titulo:d.titulo,texto:d.texto};
+    if(S.tipo!=="Original"){ const h=S.outra.trim()||(S.tipo==="Clássicos"?S.classico:S.biblia), c=S.contadas[S.tipo]=S.contadas[S.tipo]||[]; if(!c.includes(h)) c.push(h); }
+    save(); reader(S.ult);
   }catch(e){ msg("Não deu certo",esc(e.message||"Verifique a internet e tente de novo."),true); }
 }
 
 app.addEventListener("click",e=>{
   const b = e.target.closest("button"); if(!b) return;
   if(b.dataset.k){ S[b.dataset.k] = b.dataset.k==="min" ? +b.dataset.v : b.dataset.v; save();
+    if(b.dataset.k==="tipo"){ home(); return; }
     b.parentElement.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===b)); return; }
   const a = b.dataset.a, i = +b.dataset.i;
   if(a==="gen") gerar();
+  else if(a==="rand") surpresa();
   else if(a==="home") home();
   else if(a==="lib") lib();
   else if(a==="open") reader(S.favs[i]);
@@ -140,6 +161,7 @@ app.addEventListener("input",e=>{
   if(t.id==="nome") S.nome = t.value.trim()||"Ravi";
   else if(t.id==="idade") S.idade = +t.value||5;
   else if(t.id==="amigo") S.amigo = t.value;
+  else if(t.id==="outra") S.outra = t.value;
   else if(t.id==="cont") S.cont = t.checked;
   save();
 });
