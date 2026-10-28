@@ -3,170 +3,189 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0F1226">
+<meta name="theme-color" content="#0B0E24">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg">
 <link rel="apple-touch-icon" href="icon.svg">
 <title>Lua de Histórias</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--noite:#0F1226;--ceu:#1A1F3D;--borda:#2E3566;--lua:#F2D98D;--texto:#E6E4F2;--suave:#9EA2C8;--leitura:#070918;--leitura-txt:#D8D2BF;
---titulo:"Fraunces",Georgia,serif;--corpo:"Literata",Georgia,serif}
-*{box-sizing:border-box}
+:root{--lua:#F6DE9A;--texto:#EEEBFA;--suave:#A9ABD0;--vidro:rgba(255,255,255,.06);--borda:rgba(255,255,255,.14);--titulo:"Fraunces",Georgia,serif;--corpo:"Nunito",system-ui,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{color-scheme:dark}
-body{margin:0;background:var(--noite);color:var(--texto);font-family:var(--corpo);font-size:17px;line-height:1.5;min-height:100dvh;
-padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);transition:background .6s}
-body.dark{background:var(--leitura)}
-main{max-width:560px;margin:0 auto;padding:28px 22px 40px}
-h1,h2{font-family:var(--titulo);font-weight:700;line-height:1.15;margin:0}
-h1{font-size:34px;margin-top:14px}
-header p{color:var(--suave);margin:8px 0 0}
-section{margin-top:30px}
-.lb{display:block;font-weight:500;margin-bottom:10px}
-input[type=text],input[type=number]{width:100%;background:var(--ceu);border:1px solid var(--borda);color:var(--texto);border-radius:12px;padding:13px 14px;font:inherit}
-.row{display:grid;grid-template-columns:1fr 84px;gap:10px}
-.chips{display:flex;flex-wrap:wrap;gap:9px}
-.chip{font:inherit;color:var(--texto);background:transparent;border:1px solid var(--borda);border-radius:999px;padding:10px 16px;min-height:44px}
-.chip[aria-pressed=true]{background:var(--lua);border-color:var(--lua);color:#1B1A12;font-weight:500}
-.cta{width:100%;margin-top:34px;background:var(--lua);color:#1B1A12;border:0;border-radius:18px;padding:18px;font:700 20px var(--titulo)}
-.alt{width:100%;margin-top:12px;background:transparent;color:var(--lua);border:1px solid var(--lua);border-radius:18px;padding:16px;font:700 18px var(--titulo)}
-.lnk{background:none;border:0;color:var(--lua);font:inherit;padding:10px 0;margin-top:6px;text-decoration:underline;text-underline-offset:4px}
-.chk{display:flex;gap:10px;align-items:center;margin-top:22px;color:var(--suave)}
-.chk input{width:22px;height:22px;accent-color:var(--lua)}
+body{margin:0;min-height:100dvh;color:var(--texto);font:500 17px/1.5 var(--corpo);background:linear-gradient(#0B0E24,#171B45 55%,#2B2370) fixed;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);transition:background .8s}
+body.dark{background:#070918}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;animation:tw 5s ease-in-out infinite alternate;
+background:radial-gradient(1.5px 1.5px at 20px 30px,#fffc,transparent),radial-gradient(1px 1px at 95px 85px,#fff9,transparent),radial-gradient(2px 2px at 150px 22px,#F6DE9Acc,transparent),radial-gradient(1px 1px at 58px 140px,#fff9,transparent),radial-gradient(1.5px 1.5px at 130px 120px,#cfc8ffaa,transparent);background-size:190px 170px}
+body.dark::before{opacity:.22;animation:none}
+@keyframes tw{from{opacity:.45}to{opacity:1}}
+@keyframes in{from{opacity:0;transform:translateY(12px)}}
+@keyframes bal{50%{transform:translateY(-7px) rotate(-3deg)}}
+@keyframes orb{to{transform:rotate(360deg)}}
+main{max-width:560px;margin:0 auto;padding:22px 20px 70px;animation:in .5s both}
+h1,h2,h3{font-family:var(--titulo);margin:0}
+h1{font-size:30px;line-height:1.12;font-weight:800}
+h3{font-size:19px;font-weight:600;margin:30px 0 12px}
+.hd{display:flex;align-items:center;gap:14px;margin-bottom:14px}.hd p{margin:4px 0 0;color:var(--suave)}
+.moon{width:76px;height:76px;flex:none;animation:bal 5s ease-in-out infinite;filter:drop-shadow(0 0 18px #F6DE9A66)}
+.lib{display:inline-flex;gap:8px;align-items:center;background:var(--vidro);border:1px solid var(--borda);color:var(--texto);border-radius:999px;padding:9px 16px;font:700 15px var(--corpo);margin-bottom:18px}
+.lib b{background:var(--lua);color:#1B1A12;border-radius:999px;padding:0 8px}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.tiles.t3{grid-template-columns:repeat(3,1fr)}
+.tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;min-height:82px;padding:12px 8px;color:var(--texto);background:var(--vidro);border:1.5px solid var(--borda);border-radius:22px;font:700 14px/1.2 var(--corpo);transition:transform .18s,box-shadow .18s,background .18s}
+.tile i{font-style:normal;font-size:30px;line-height:1.1}
+.tile:active{transform:scale(.95)}
+.tile[aria-pressed=true]{border-color:var(--lua);background:rgba(246,222,154,.16);box-shadow:0 0 0 4px #F6DE9A29,0 8px 24px #0006;transform:scale(1.03)}
+.tiles.t3 .tile{min-height:92px}
+.who{display:grid;grid-template-columns:1fr 84px;gap:10px;margin-top:4px}
+input[type=text],input[type=number]{width:100%;background:var(--vidro);border:1.5px solid var(--borda);color:var(--texto);border-radius:16px;padding:14px 16px;font:700 17px var(--corpo)}
+input::placeholder{color:#8588b3;font-weight:500}
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:34px;border:0;border-radius:22px;padding:19px;color:#1B1A12;font:800 20px var(--titulo);background:linear-gradient(135deg,#FFF0B8,#F2C86B);box-shadow:0 10px 30px #F2C86B40;transition:transform .15s}
+.cta:active{transform:scale(.97)}
+.alt{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:12px;background:var(--vidro);color:var(--lua);border:1.5px solid var(--lua);border-radius:22px;padding:16px;font:800 18px var(--titulo)}
+.lnk{background:none;border:0;color:var(--lua);font:700 16px var(--corpo);padding:10px 0;text-decoration:underline;text-underline-offset:4px}
+.chk{display:flex;gap:12px;align-items:center;margin-top:22px;color:var(--suave);font-weight:700}.chk input{width:24px;height:24px;accent-color:#F6DE9A}
 button:focus-visible,input:focus-visible{outline:3px solid var(--lua);outline-offset:2px}
-.rd{max-width:620px;margin:0 auto;padding:44px 26px 150px;color:var(--leitura-txt)}
-.rd h2{font-size:calc(var(--fs) * 1.35);margin-bottom:28px;color:var(--lua)}
+.prog{position:fixed;top:env(safe-area-inset-top);left:0;height:3px;width:0;background:var(--lua);z-index:5;transition:width .15s}
+.rd{max-width:620px;margin:0 auto;padding:46px 26px 170px;color:#DCD6C3;animation:in .6s both}
+.rd h2{font-size:calc(var(--fs) * 1.4);line-height:1.15;font-weight:800;margin-bottom:26px;color:var(--lua)}
 .rd p{font-size:var(--fs);line-height:1.75;margin:0 0 1.1em}
-.bar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;justify-content:center;padding:12px 14px calc(12px + env(safe-area-inset-bottom));
-background:linear-gradient(transparent,var(--leitura) 40%)}
-.bar button{font:inherit;color:var(--leitura-txt);background:#12152B;border:1px solid var(--borda);border-radius:14px;padding:12px 16px;min-height:48px}
+.rd p:first-of-type::first-letter{font:800 3.1em/.8 var(--titulo);float:left;color:var(--lua);padding:.08em .1em 0 0}
+.fim{text-align:center;margin-top:48px}.fim .moon{width:84px;height:84px;margin:0 auto 6px}.fim h3{margin:8px 0 4px}.fim p{color:var(--suave);margin:0}
+.bar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;justify-content:center;padding:14px 12px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(transparent,#070918 45%)}
+.bar button{font:800 16px var(--corpo);color:#DCD6C3;background:#14183A;border:1px solid var(--borda);border-radius:16px;padding:12px 16px;min-height:50px}
 .bar button[aria-pressed=true]{color:var(--lua);border-color:var(--lua)}
-.msg{min-height:80dvh;display:grid;place-content:center;text-align:center;padding:24px;gap:14px}
-.msg h2{font-size:26px}.msg p{color:var(--suave);margin:0}
-.lua{width:64px;height:64px;margin:0 auto;border-radius:50%;box-shadow:inset -18px 0 0 0 var(--lua);animation:bal 3s ease-in-out infinite}
-@keyframes bal{50%{transform:translateY(-8px)}}
-.item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;border-bottom:1px solid var(--borda)}
-.item button.t{flex:1;text-align:left;background:none;border:0;color:var(--texto);font:700 19px var(--titulo);padding:0}
-.item button.d{background:none;border:0;color:var(--suave);font:inherit;padding:10px}
-@media (prefers-reduced-motion:reduce){.lua{animation:none}body{transition:none}}
+.msg{min-height:86dvh;display:grid;place-content:center;text-align:center;padding:24px;gap:14px;animation:in .5s both}
+.msg h2{font-size:26px}.msg p{color:var(--suave);margin:0;min-height:1.5em}
+.orb{position:relative;width:130px;height:130px;margin:0 auto}.orb .moon{position:absolute;inset:27px;width:76px;height:76px}
+.orb u{position:absolute;inset:0;animation:orb 4s linear infinite}.orb u::after{content:"★";position:absolute;top:0;left:50%;color:var(--lua);font-size:18px;text-decoration:none}
+.orb u:nth-child(2){animation-duration:6s;animation-direction:reverse;inset:10px}
+.item{display:flex;align-items:center;gap:12px;padding:14px 16px;margin-bottom:10px;background:var(--vidro);border:1px solid var(--borda);border-radius:20px}
+.item button.t{flex:1;text-align:left;background:none;border:0;color:var(--texto);font:800 18px var(--titulo);padding:0}
+.item button.d{background:none;border:0;color:var(--suave);font:700 14px var(--corpo);padding:10px}
+@media (prefers-reduced-motion:reduce){*,::before{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<div class="prog" id="prog"></div>
 <div id="app"></div>
 <script>
 // ====== CONFIGURE AQUI ======
 const API = "https://pmgemcvsobonypojltpw.supabase.co/functions/v1/gerar-historia";
 const ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtZ2VtY3Zzb2Jvbnlwb2psdHB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwNjE1MTcsImV4cCI6MjA5NjYzNzUxN30.3SBG5Lm3A039MprUG4Ea_WVs29iAMtODBE6s3KpoRLg";
 // ============================
-const TEMAS = ["Animais da floresta","Viagem pelo espaço","Fazenda","Fundo do mar","Dinossauros","Super-heróis","Tratores e máquinas","Castelo e dragão amigo"];
-const LICOES = ["Coragem","Gratidão","Dividir com os outros","Amizade","Não ter medo do escuro","Paciência"];
-const MIN = [3,5,8];
-const TIPOS = ["Original","Clássicos","Bíblia"];
-const CLASSICOS = ["Chapeuzinho Vermelho","Os Três Porquinhos","Cachinhos Dourados","O Patinho Feio","João e o Pé de Feijão","Cinderela","A Branca de Neve","A Bela Adormecida","O Gato de Botas","A Lebre e a Tartaruga","A Cigarra e a Formiga","O Pequeno Polegar","Rapunzel","Pinóquio","A Pequena Sereia","Os Músicos de Bremen"];
-const BIBLIA = ["A criação do mundo","Noé e a arca","José e a túnica colorida","Moisés e o mar Vermelho","Davi e Golias","Daniel na cova dos leões","Jonas e o grande peixe","O nascimento de Jesus","Jesus e as crianças","A ovelha perdida","O bom samaritano","Zaqueu no sicômoro","Jesus acalma a tempestade","A multiplicação dos pães"];
-const S = Object.assign({nome:"Ravi",idade:5,tema:TEMAS[0],licao:LICOES[0],min:5,amigo:"",cont:false,tipo:"Original",classico:"Chapeuzinho Vermelho",biblia:"Noé e a arca",outra:"",contadas:{},favs:[],ult:null,fs:24,pin:""},
-  JSON.parse(localStorage.getItem("lua")||"{}"));
-const save = () => localStorage.setItem("lua", JSON.stringify(S));
-const app = document.getElementById("app");
-const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const chips = (arr,k) => arr.map(v => `<button class="chip" data-k="${k}" data-v="${v}" aria-pressed="${S[k]==v}">${v}${k==="min"?" min":""}</button>`).join("");
-let cur = null;
+const TIPOS=[["Original","✨"],["Clássicos","🏰"],["Bíblia","📖"]];
+const TEMAS=[["Animais da floresta","🦊"],["Viagem pelo espaço","🚀"],["Fazenda","🐄"],["Fundo do mar","🐠"],["Dinossauros","🦕"],["Super-heróis","🦸"],["Tratores e máquinas","🚜"],["Castelo e dragão amigo","🐉"]];
+const LICOES=[["Coragem","🦁"],["Gratidão","💛"],["Dividir com os outros","🍪"],["Amizade","🤝"],["Não ter medo do escuro","🌙"],["Paciência","🐢"]];
+const MIN=[[3,"⭐"],[5,"⭐⭐"],[8,"⭐⭐⭐"]];
+const CLASSICOS=[["Chapeuzinho Vermelho","🧺"],["Os Três Porquinhos","🐷"],["Cachinhos Dourados","🐻"],["O Patinho Feio","🦆"],["João e o Pé de Feijão","🌱"],["Cinderela","👠"],["A Branca de Neve","🍎"],["A Bela Adormecida","🌹"],["O Gato de Botas","🐱"],["A Lebre e a Tartaruga","🐇"],["A Cigarra e a Formiga","🐜"],["O Pequeno Polegar","🧵"],["Rapunzel","🏰"],["Pinóquio","🪵"],["A Pequena Sereia","🧜"],["Os Músicos de Bremen","🎺"]];
+const BIBLIA=[["A criação do mundo","🌍"],["Noé e a arca","🌈"],["José e a túnica colorida","🧥"],["Moisés e o mar Vermelho","🌊"],["Davi e Golias","🪨"],["Daniel na cova dos leões","🦁"],["Jonas e o grande peixe","🐋"],["O nascimento de Jesus","⭐"],["Jesus e as crianças","🧒"],["A ovelha perdida","🐑"],["O bom samaritano","🩹"],["Zaqueu no sicômoro","🌳"],["Jesus acalma a tempestade","⛵"],["A multiplicação dos pães","🍞"]];
+const FRASES=["Acendendo as estrelas…","Chamando os personagens…","Preparando um cobertor de nuvens…","Quase lá. Respire fundo…"];
+const MOON=`<svg class="moon" viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF3C4"/><stop offset="1" stop-color="#F2C86B"/></linearGradient></defs><path d="M78 12A50 50 0 1 0 108 82 40 40 0 0 1 78 12z" fill="url(#g)"/><path d="M26 62q5 6 11 0" stroke="#7a5a1a" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="30" cy="76" r="5" fill="#f2a07a" opacity=".55"/></svg>`;
+const S=Object.assign({nome:"Ravi",idade:5,tema:"Animais da floresta",licao:"Coragem",min:5,amigo:"",cont:false,tipo:"Original",classico:"Chapeuzinho Vermelho",biblia:"Noé e a arca",outra:"",contadas:{},favs:[],ult:null,fs:24,pin:""},JSON.parse(localStorage.getItem("lua")||"{}"));
+const save=()=>localStorage.setItem("lua",JSON.stringify(S));
+const app=document.getElementById("app");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const tiles=(arr,k,c="")=>`<div class="tiles ${c}">${arr.map(([v,e])=>`<button class="tile" data-k="${k}" data-v="${v}" aria-pressed="${S[k]==v}"><i>${e}</i><span>${k==="min"?v+" min":v}</span></button>`).join("")}</div>`;
+let cur=null,tm=null;
+const nomes=a=>a.map(x=>x[0]);
+const dark=on=>document.body.classList.toggle("dark",on);
 
 function home(){
-  document.body.classList.remove("dark");
-  const o = S.tipo==="Original", cl = S.tipo==="Clássicos", lista = cl?CLASSICOS:BIBLIA, k = cl?"classico":"biblia";
-  app.innerHTML = `<main>
-  <header><h1>Boa noite, ${esc(S.nome)}</h1><p>Que história vamos contar hoje?</p>
-  <button class="lnk" data-a="lib">Histórias salvas (${S.favs.length})</button></header>
-  <section><span class="lb">Tipo de história</span><div class="chips">${chips(TIPOS,"tipo")}</div></section>
-  <section><label class="lb" for="idade">${o?"Herói e idade":"Idade da criança"}</label>
-    <div class="row" ${o?"":'style="grid-template-columns:84px"'}>${o?`<input id="nome" type="text" value="${esc(S.nome)}" autocomplete="off">`:""}
-    <input id="idade" type="number" min="2" max="12" value="${S.idade}" aria-label="Idade"></div></section>
-  ${o?`<section><span class="lb">Tema</span><div class="chips">${chips(TEMAS,"tema")}</div></section>
-  <section><span class="lb">Lição suave</span><div class="chips">${chips(LICOES,"licao")}</div></section>`
-  :`<section><span class="lb">Escolha a história</span><div class="chips">${chips(lista,k)}</div></section>
-  <section><label class="lb" for="outra">Ou digite outra (tem prioridade)</label>
-    <input id="outra" type="text" placeholder="${cl?"ex.: Rapunzel":"ex.: A arca da aliança"}" value="${esc(S.outra)}" autocomplete="off"></section>`}
-  <section><span class="lb">Duração</span><div class="chips">${chips(MIN,"min")}</div></section>
-  ${o?`<section><label class="lb" for="amigo">Um amigo na história (opcional)</label>
-    <input id="amigo" type="text" placeholder="ex.: coelhinho Totó" value="${esc(S.amigo)}" autocomplete="off"></section>
+  clearInterval(tm);dark(false);
+  const o=S.tipo==="Original",cl=S.tipo==="Clássicos",lista=cl?CLASSICOS:BIBLIA,k=cl?"classico":"biblia";
+  app.innerHTML=`<main>
+  <header class="hd">${MOON}<div><h1>Boa noite, ${esc(S.nome)}</h1><p>Que história vamos contar hoje?</p></div></header>
+  <button class="lib" data-a="lib">♡ Histórias salvas <b>${S.favs.length}</b></button>
+  ${tiles(TIPOS,"tipo","t3")}
+  <h3>${o?"Quem é o herói?":"Quantos anos tem a criança?"}</h3>
+  <div class="who" ${o?"":'style="grid-template-columns:84px"'}>${o?`<input id="nome" type="text" value="${esc(S.nome)}" autocomplete="off" aria-label="Nome do herói">`:""}<input id="idade" type="number" min="2" max="12" value="${S.idade}" aria-label="Idade"></div>
+  ${o?`<h3>Que aventura vai ser?</h3>${tiles(TEMAS,"tema")}<h3>Uma lição suave</h3>${tiles(LICOES,"licao","t3")}`
+  :`<h3>${cl?"Escolha o conto":"Escolha o relato"}</h3>${tiles(lista,k)}<h3>Ou digite outra</h3>
+  <input id="outra" type="text" placeholder="${cl?"ex.: Aladim":"ex.: Sansão"}" value="${esc(S.outra)}" autocomplete="off">`}
+  <h3>Quanto tempo de história?</h3>${tiles(MIN,"min","t3")}
+  ${o?`<h3>Um amigo na história</h3><input id="amigo" type="text" placeholder="opcional, ex.: coelhinho Totó" value="${esc(S.amigo)}" autocomplete="off">
   ${S.ult?`<label class="chk"><input type="checkbox" id="cont" ${S.cont?"checked":""}>Continuar a última história</label>`:""}`:""}
-  <button class="cta" data-a="gen">${o?"Contar uma história":"Contar a história escolhida"}</button>${o?"":`<button class="alt" data-a="rand">Surpreenda-me</button>`}</main>`;
+  <button class="cta" data-a="gen">🌙 ${o?"Contar uma história":"Contar a história escolhida"}</button>
+  ${o?"":`<button class="alt" data-a="rand">🎲 Surpreenda-me</button>`}</main>`;
+  scrollTo(0,0);
 }
 
 function reader(h){
-  cur = h; const fav = S.favs.some(f => f.id === h.id);
-  document.body.classList.add("dark");
-  app.innerHTML = `<article class="rd" style="--fs:${S.fs}px"><h2>${esc(h.titulo)}</h2>${h.texto.split(/\n+/).map(p=>`<p>${esc(p)}</p>`).join("")}</article>
-  <nav class="bar"><button data-a="home">Voltar</button><button data-a="fm" aria-label="Diminuir letra">A−</button><button data-a="fp" aria-label="Aumentar letra">A+</button>
-  <button data-a="fav" aria-pressed="${fav}">${fav?"Salva":"Salvar"}</button></nav>`;
+  clearInterval(tm);cur=h;dark(true);const fav=S.favs.some(f=>f.id===h.id);
+  app.innerHTML=`<article class="rd" style="--fs:${S.fs}px"><h2>${esc(h.titulo)}</h2>${h.texto.split(/\n+/).map(p=>`<p>${esc(p)}</p>`).join("")}
+  <div class="fim">${MOON}<h3>Boa noite, ${esc(S.nome)}</h3><p>Sonhos lindos.</p><button class="cta" data-a="home" style="margin-top:22px">Contar outra história</button></div></article>
+  <nav class="bar"><button data-a="home" aria-label="Voltar">‹ Voltar</button><button data-a="fm" aria-label="Diminuir letra">A−</button><button data-a="fp" aria-label="Aumentar letra">A+</button>
+  <button data-a="fav" aria-pressed="${fav}">${fav?"♥ Salva":"♡ Salvar"}</button></nav>`;
   scrollTo(0,0);
-  try{ navigator.wakeLock && navigator.wakeLock.request("screen"); }catch(e){}
+  try{navigator.wakeLock&&navigator.wakeLock.request("screen")}catch(e){}
 }
 
 function lib(){
-  document.body.classList.remove("dark");
-  app.innerHTML = `<main><header><h1>Histórias salvas</h1><button class="lnk" data-a="home">Voltar</button></header>
-  <section>${S.favs.length ? S.favs.map((f,i)=>`<div class="item"><button class="t" data-a="open" data-i="${i}">${esc(f.titulo)}</button><button class="d" data-a="del" data-i="${i}">Remover</button></div>`).join("")
-  : `<p style="color:var(--suave)">Nenhuma ainda. Toque em Salvar numa história de que o ${esc(S.nome)} gostar.</p>`}</section></main>`;
+  clearInterval(tm);dark(false);
+  app.innerHTML=`<main><header class="hd">${MOON}<div><h1>Histórias salvas</h1></div></header><button class="lnk" data-a="home">‹ Voltar</button><section style="margin-top:14px">${S.favs.length?S.favs.map((f,i)=>`<div class="item"><button class="t" data-a="open" data-i="${i}">${esc(f.titulo)}</button><button class="d" data-a="del" data-i="${i}">Remover</button></div>`).join(""):`<p style="color:var(--suave)">Nenhuma ainda. Toque em ♡ Salvar numa história de que o ${esc(S.nome)} gostar.</p>`}</section></main>`;
+  scrollTo(0,0);
 }
 
 function msg(t,p,btn){
-  document.body.classList.add("dark");
-  app.innerHTML = `<div class="msg">${btn?"":'<div class="lua"></div>'}<h2>${t}</h2><p>${p}</p>${btn?'<button class="cta" data-a="gen">Tentar de novo</button><button class="lnk" data-a="home">Voltar</button>':""}</div>`;
+  clearInterval(tm);dark(true);
+  app.innerHTML=`<div class="msg">${btn?"":`<div class="orb"><u></u><u></u>${MOON}</div>`}<h2>${t}</h2><p id="lm">${p}</p>${btn?`<button class="cta" data-a="gen">Tentar de novo</button><button class="lnk" data-a="home">‹ Voltar</button>`:""}</div>`;
+  if(!btn){let i=0;tm=setInterval(()=>{const e=document.getElementById("lm");if(e)e.textContent=FRASES[++i%FRASES.length]},2600)}
 }
 
 function surpresa(){
-  const cl = S.tipo==="Clássicos", lista = cl?CLASSICOS:BIBLIA, k = cl?"classico":"biblia";
-  const ja = S.contadas[S.tipo]||[]; let pool = lista.filter(x=>!ja.includes(x));
-  if(!pool.length){ S.contadas[S.tipo]=[]; pool = lista; }
-  S[k] = pool[Math.floor(Math.random()*pool.length)]; S.outra = ""; save(); gerar();
+  const cl=S.tipo==="Clássicos",lista=nomes(cl?CLASSICOS:BIBLIA),k=cl?"classico":"biblia";
+  const ja=S.contadas[S.tipo]||[];let pool=lista.filter(x=>!ja.includes(x));
+  if(!pool.length){S.contadas[S.tipo]=[];pool=lista}
+  S[k]=pool[Math.floor(Math.random()*pool.length)];S.outra="";save();gerar();
 }
 
 async function gerar(){
-  if(!S.pin){ S.pin = prompt("Código de acesso do app:") || ""; save(); }
-  msg("Preparando a história…","Respire fundo. Já já começa.");
+  if(!S.pin){S.pin=prompt("Código de acesso do app:")||"";save()}
+  msg("Preparando a história…",FRASES[0]);
+  const hist=S.outra.trim()||(S.tipo==="Clássicos"?S.classico:S.tipo==="Bíblia"?S.biblia:"");
   try{
-    const r = await fetch(API,{method:"POST",
+    const r=await fetch(API,{method:"POST",
       headers:{"Content-Type":"application/json",apikey:ANON,Authorization:"Bearer "+ANON,"x-app-pin":S.pin},
-      body:JSON.stringify({tipo:S.tipo,historia:S.outra.trim()||(S.tipo==="Clássicos"?S.classico:S.tipo==="Bíblia"?S.biblia:""),nome:S.nome,idade:S.idade,tema:S.tema,licao:S.licao,minutos:S.min,amigo:S.amigo,
+      body:JSON.stringify({tipo:S.tipo,historia:hist,nome:S.nome,idade:S.idade,tema:S.tema,licao:S.licao,minutos:S.min,amigo:S.amigo,
         anterior:S.tipo==="Original"&&S.cont&&S.ult?S.ult.texto.slice(0,700):""})});
-    const d = await r.json();
-    if(!r.ok){ if(r.status===401){S.pin="";save();} throw new Error(d.erro||"Falha ao gerar"); }
-    S.ult = {id:Date.now(),titulo:d.titulo,texto:d.texto};
-    if(S.tipo!=="Original"){ const h=S.outra.trim()||(S.tipo==="Clássicos"?S.classico:S.biblia), c=S.contadas[S.tipo]=S.contadas[S.tipo]||[]; if(!c.includes(h)) c.push(h); }
-    save(); reader(S.ult);
-  }catch(e){ msg("Não deu certo",esc(e.message||"Verifique a internet e tente de novo."),true); }
+    const d=await r.json();
+    if(!r.ok){if(r.status===401){S.pin="";save()}throw new Error(d.erro||"Falha ao gerar")}
+    S.ult={id:Date.now(),titulo:d.titulo,texto:d.texto};
+    if(S.tipo!=="Original"){const c=S.contadas[S.tipo]=S.contadas[S.tipo]||[];if(!c.includes(hist))c.push(hist)}
+    save();reader(S.ult);
+  }catch(e){msg("Não deu certo",esc(e.message||"Verifique a internet e tente de novo."),true)}
 }
 
 app.addEventListener("click",e=>{
-  const b = e.target.closest("button"); if(!b) return;
-  if(b.dataset.k){ S[b.dataset.k] = b.dataset.k==="min" ? +b.dataset.v : b.dataset.v; save();
-    if(b.dataset.k==="tipo"){ home(); return; }
-    b.parentElement.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===b)); return; }
-  const a = b.dataset.a, i = +b.dataset.i;
-  if(a==="gen") gerar();
-  else if(a==="rand") surpresa();
-  else if(a==="home") home();
-  else if(a==="lib") lib();
-  else if(a==="open") reader(S.favs[i]);
-  else if(a==="del"){ S.favs.splice(i,1); save(); lib(); }
-  else if(a==="fm"||a==="fp"){ S.fs = Math.min(40,Math.max(18,S.fs+(a==="fp"?2:-2))); save(); document.querySelector(".rd").style.setProperty("--fs",S.fs+"px"); }
-  else if(a==="fav"){ const k = S.favs.findIndex(f=>f.id===cur.id); k>=0 ? S.favs.splice(k,1) : S.favs.unshift(cur); save(); reader(cur); }
+  const b=e.target.closest("button");if(!b)return;
+  try{navigator.vibrate&&navigator.vibrate(8)}catch(x){}
+  if(b.dataset.k){S[b.dataset.k]=b.dataset.k==="min"?+b.dataset.v:b.dataset.v;save();
+    if(b.dataset.k==="tipo"){home();return}
+    b.parentElement.querySelectorAll(".tile").forEach(c=>c.setAttribute("aria-pressed",c===b));return}
+  const a=b.dataset.a,i=+b.dataset.i;
+  if(a==="gen")gerar();
+  else if(a==="rand")surpresa();
+  else if(a==="home")home();
+  else if(a==="lib")lib();
+  else if(a==="open")reader(S.favs[i]);
+  else if(a==="del"){S.favs.splice(i,1);save();lib()}
+  else if(a==="fm"||a==="fp"){S.fs=Math.min(40,Math.max(18,S.fs+(a==="fp"?2:-2)));save();document.querySelector(".rd").style.setProperty("--fs",S.fs+"px")}
+  else if(a==="fav"){const k=S.favs.findIndex(f=>f.id===cur.id);k>=0?S.favs.splice(k,1):S.favs.unshift(cur);save();const y=scrollY;reader(cur);scrollTo(0,y)}
 });
 app.addEventListener("input",e=>{
-  const t = e.target;
-  if(t.id==="nome") S.nome = t.value.trim()||"Ravi";
-  else if(t.id==="idade") S.idade = +t.value||5;
-  else if(t.id==="amigo") S.amigo = t.value;
-  else if(t.id==="outra") S.outra = t.value;
-  else if(t.id==="cont") S.cont = t.checked;
+  const t=e.target;
+  if(t.id==="nome")S.nome=t.value.trim()||"Ravi";
+  else if(t.id==="idade")S.idade=+t.value||5;
+  else if(t.id==="amigo")S.amigo=t.value;
+  else if(t.id==="outra")S.outra=t.value;
+  else if(t.id==="cont")S.cont=t.checked;
   save();
 });
+addEventListener("scroll",()=>{const h=document.documentElement,p=document.getElementById("prog");p.style.width=document.querySelector(".rd")?(scrollY/Math.max(1,h.scrollHeight-innerHeight)*100)+"%":"0"},{passive:true});
 home();
-if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js");
 </script>
 </body>
 </html>
