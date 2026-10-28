@@ -83,7 +83,7 @@ const CLASSICOS=[["Chapeuzinho Vermelho","🧺"],["Os Três Porquinhos","🐷"],
 const BIBLIA=[["A criação do mundo","🌍"],["Noé e a arca","🌈"],["José e a túnica colorida","🧥"],["Moisés e o mar Vermelho","🌊"],["Davi e Golias","🪨"],["Daniel na cova dos leões","🦁"],["Jonas e o grande peixe","🐋"],["O nascimento de Jesus","⭐"],["Jesus e as crianças","🧒"],["A ovelha perdida","🐑"],["O bom samaritano","🩹"],["Zaqueu no sicômoro","🌳"],["Jesus acalma a tempestade","⛵"],["A multiplicação dos pães","🍞"]];
 const FRASES=["Acendendo as estrelas…","Chamando os personagens…","Preparando um cobertor de nuvens…","Quase lá. Respire fundo…"];
 const MOON=`<svg class="moon" viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF3C4"/><stop offset="1" stop-color="#F2C86B"/></linearGradient></defs><path d="M78 12A50 50 0 1 0 108 82 40 40 0 0 1 78 12z" fill="url(#g)"/><path d="M26 62q5 6 11 0" stroke="#7a5a1a" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="30" cy="76" r="5" fill="#f2a07a" opacity=".55"/></svg>`;
-const S=Object.assign({nome:"Ravi",idade:5,tema:"Animais da floresta",licao:"Coragem",min:5,amigo:"",cont:false,tipo:"Original",classico:"Chapeuzinho Vermelho",biblia:"Noé e a arca",outra:"",contadas:{},favs:[],ult:null,fs:24,pin:""},JSON.parse(localStorage.getItem("lua")||"{}"));
+const S=Object.assign({nome:"Ravi",idade:5,tema:"Animais da floresta",licao:"Coragem",min:5,amigo:"",cont:false,tipo:"Original",classico:"Chapeuzinho Vermelho",biblia:"Noé e a arca",outra:"",contadas:{},favs:[],ult:null,fs:24},JSON.parse(localStorage.getItem("lua")||"{}"));
 const save=()=>localStorage.setItem("lua",JSON.stringify(S));
 const app=document.getElementById("app");
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -142,16 +142,15 @@ function surpresa(){
 }
 
 async function gerar(){
-  if(!S.pin){S.pin=prompt("Código de acesso do app:")||"";save()}
   msg("Preparando a história…",FRASES[0]);
   const hist=S.outra.trim()||(S.tipo==="Clássicos"?S.classico:S.tipo==="Bíblia"?S.biblia:"");
   try{
     const r=await fetch(API,{method:"POST",
-      headers:{"Content-Type":"application/json",apikey:ANON,Authorization:"Bearer "+ANON,"x-app-pin":S.pin},
+      headers:{"Content-Type":"application/json",apikey:ANON,Authorization:"Bearer "+ANON},
       body:JSON.stringify({tipo:S.tipo,historia:hist,nome:S.nome,idade:S.idade,tema:S.tema,licao:S.licao,minutos:S.min,amigo:S.amigo,
         anterior:S.tipo==="Original"&&S.cont&&S.ult?S.ult.texto.slice(0,700):""})});
     const d=await r.json();
-    if(!r.ok){if(r.status===401){S.pin="";save()}throw new Error(d.erro||"Falha ao gerar")}
+    if(!r.ok)throw new Error(d.erro||"Falha ao gerar");
     S.ult={id:Date.now(),titulo:d.titulo,texto:d.texto};
     if(S.tipo!=="Original"){const c=S.contadas[S.tipo]=S.contadas[S.tipo]||[];if(!c.includes(hist))c.push(hist)}
     save();reader(S.ult);
